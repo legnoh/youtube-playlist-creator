@@ -18,8 +18,7 @@ jobs:
     
     - name: Download token.json
       run: |
-        echo ${{ secrets.YOUTUBE_CLIENT_SECRET }} | base64 -d > token.json
-        echo token.json
+        echo ${{ secrets.YOUTUBE_TOKEN_FILE }} | base64 -d > token.json
 
     - name: Install pipenv
       run: pipx install pipenv
@@ -37,3 +36,10 @@ jobs:
       env:
         YOUTUBE_PLAYLIST_ID: ${{ secrets.YOUTUBE_PLAYLIST_ID }}
         TZ: ${{ secrets.TZ }}
+
+    - name: Upload tmp folder
+      uses: actions/upload-artifact@v3
+      if: ${{ always() }}
+      with:
+        name: token.json
+        path: token.json

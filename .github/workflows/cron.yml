@@ -17,9 +17,7 @@ jobs:
       uses: actions/checkout@v3
     
     - name: Download token.json
-      env:
-        YOUTUBE_CLIENT_SECRET: ${{ secret.YOUTUBE_CLIENT_SECRET }}
-      run: echo ${{ env.YOUTUBE_CLIENT_SECRET }} > token.json
+      run: echo ${{ secrets.YOUTUBE_CLIENT_SECRET }} > token.json
 
     - name: Install pipenv
       run: pipx install pipenv

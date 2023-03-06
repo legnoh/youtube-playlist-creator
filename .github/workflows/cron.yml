@@ -15,9 +15,6 @@ jobs:
 
     - name: Check Out Repo 
       uses: actions/checkout@v3
-    
-    - name: Download token.json
-      run: echo ${{ secrets.YOUTUBE_TOKEN_FILE }} | base64 -d > token.json
 
     - name: Install pipenv
       run: pipx install pipenv
@@ -31,7 +28,9 @@ jobs:
       run: pipenv install
 
     - name: Run Gathering Asken Data
-      run: pipenv run main
+      run: |
+        echo ${{ secrets.YOUTUBE_TOKEN_FILE }} | base64 -d > token.json
+        pipenv run main
       env:
         YOUTUBE_PLAYLIST_ID: ${{ secrets.YOUTUBE_PLAYLIST_ID }}
         TZ: ${{ secrets.TZ }}

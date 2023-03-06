@@ -5,7 +5,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-token_file = os.environ.get('YOUTUBE_TOKEN_FILE', './token.json')
+token_file = './token.json'
 playlist_id = os.environ.get('YOUTUBE_PLAYLIST_ID')
 
 scopes = [

@@ -40,7 +40,7 @@ if __name__ == '__main__':
   yt.clear_playlistitem(youtube, playlist_id)
 
   items = yt.search_videos(youtube,
-    q="雑談 にじさんじ",
+    q="にじさんじ 雑談|にじさんじ",
     eventType='live',
     # order='date',
   )

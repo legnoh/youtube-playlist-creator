@@ -51,7 +51,7 @@ if __name__ == '__main__':
       new_items.append(item)
   
   # 空の場合、デフォルト動画を入れる
-  if len(new_items):
+  if len(new_items) == 0:
     new_items.append({"id": {"videoId": "6uddGul0oAc"}})
   else:
     # 日付が新しい順に並び替え

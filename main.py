@@ -50,9 +50,13 @@ if __name__ == '__main__':
     if item['snippet']['channelId'] in subscription_ids:
       new_items.append(item)
   
-  # 日付が新しい順に並び替え
-  new_items = sorted(new_items, key=lambda d: d['snippet']['publishedAt'], reverse=True)
+  # 空の場合、デフォルト動画を入れる
+  if len(new_items):
+    new_items.append({"id": {"videoId": "6uddGul0oAc"}})
+  else:
+    # 日付が新しい順に並び替え
+    new_items = sorted(new_items, key=lambda d: d['snippet']['publishedAt'], reverse=True)
 
   for new_item in new_items:
-    print("{d} 開始: {title} 投稿者: {author}".format(d=new_item['snippet']['publishTime'], title=new_item['snippet']['title'], author=new_item['snippet']['channelTitle']))
+    # print("{d} 開始: {title} 投稿者: {author}".format(d=new_item['snippet']['publishTime'], title=new_item['snippet']['title'], author=new_item['snippet']['channelTitle']))
     playlist = yt.insert_playlistitem(youtube, playlist_id, new_item['id']['videoId'])

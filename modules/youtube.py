@@ -8,7 +8,8 @@ def get_channels(youtube, **params):
   channels = []
   params['pageToken'] = ''
   params['maxResults'] = 50
-  params['part'] = 'items(id,snippet(title,customUrl))'
+  params['part'] = 'id,snippet'
+  params['fields'] = 'items(id,snippet(title,customUrl))'
 
   while params['pageToken'] is not None:
     channels_response = youtube.channels().list(**params).execute()
@@ -24,7 +25,7 @@ def get_subscriptions(youtube, **params):
   params['pageToken'] = ''
   params['maxResults'] = 50
   params['part'] = 'id,snippet'
-  params['part'] = 'items(id,snippet(title,channelId))'
+  params['fields'] = 'items(id,snippet(title,resourceId(channelId)))'
 
   while params['pageToken'] is not None:
     subscriptions_response = youtube.subscriptions().list(**params).execute()
@@ -41,7 +42,7 @@ def search_videos(youtube, **params):
   params['maxResults'] = 50
   params['type'] = 'video'
   params['part'] = 'id,snippet'    
-  params['fields'] = "items(id(videoId),snippet(publishedAt,channelId,title,channelTitle)" 
+  params['fields'] = "items(id(videoId),snippet(publishedAt,channelId,title,channelTitle))" 
 
   while params['pageToken'] is not None:
     search_response = youtube.search().list(**params).execute()

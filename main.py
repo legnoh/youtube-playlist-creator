@@ -40,7 +40,7 @@ if __name__ == '__main__':
   yt.clear_playlistitem(youtube, playlist_id)
 
   items = yt.search_videos(youtube,
-    q="にじさんじ 雑談|にじさんじ",
+    q="にじさんじ",
     eventType='live',
     # order='date',
   )
@@ -54,14 +54,14 @@ if __name__ == '__main__':
   if len(new_items) == 0:
     new_items.append({
       "id": {"videoId": "6uddGul0oAc"},
-      "snippet": {"publishAt": "0000", "title": "default", "channelTitle": "default"},
+      "snippet": {"publishedAt": "0000", "title": "default", "channelTitle": "default"},
     })
   else:
     # 日付が新しい順に並び替え
     new_items = sorted(new_items, key=lambda d: d['snippet']['publishedAt'], reverse=True)
 
   for new_item in new_items:
-    print("{d} 開始: {title} 投稿者: {author}".format(d=new_item['snippet']['publishAt'], title=new_item['snippet']['title'], author=new_item['snippet']['channelTitle']))
+    print("{d} 開始: {title} 投稿者: {author}".format(d=new_item['snippet']['publishedAt'], title=new_item['snippet']['title'], author=new_item['snippet']['channelTitle']))
     
     body = {
       'snippet': {
@@ -72,5 +72,5 @@ if __name__ == '__main__':
         }
       }
     }
-    
+
     playlist = yt.insert_playlistitem(youtube, body=body)

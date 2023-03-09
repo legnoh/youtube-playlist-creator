@@ -8,7 +8,7 @@ def get_channels(youtube, **params):
   channels = []
   params['pageToken'] = ''
   params['maxResults'] = 50
-  params['part'] = 'id,snippet'
+  params['part'] = 'items(id,snippet(title,customUrl))'
 
   while params['pageToken'] is not None:
     channels_response = youtube.channels().list(**params).execute()
@@ -24,6 +24,7 @@ def get_subscriptions(youtube, **params):
   params['pageToken'] = ''
   params['maxResults'] = 50
   params['part'] = 'id,snippet'
+  params['part'] = 'items(id,snippet(title,channelId))'
 
   while params['pageToken'] is not None:
     subscriptions_response = youtube.subscriptions().list(**params).execute()
@@ -32,13 +33,15 @@ def get_subscriptions(youtube, **params):
     params['pageToken'] = subscriptions_response.get('nextPageToken', None)
   return channels
 
+
 def search_videos(youtube, **params):
 
   videos = []
   params['pageToken'] = ''
   params['maxResults'] = 50
   params['type'] = 'video'
-  params['part'] = 'id,snippet'     
+  params['part'] = 'id,snippet'    
+  params['fields'] = "items(id(videoId),snippet(publishedAt,channelId,title,channelTitle)" 
 
   while params['pageToken'] is not None:
     search_response = youtube.search().list(**params).execute()
@@ -53,7 +56,8 @@ def list_playlistitems(youtube, **params):
   videos = []
   params['pageToken'] = ''
   params['maxResults'] = 50
-  params['part'] = 'id,snippet'
+  params['part'] = 'id'
+  params['fields'] = "items(id)"
 
   while params['pageToken'] is not None:
     search_response = youtube.playlistItems().list(**params).execute()
@@ -62,20 +66,13 @@ def list_playlistitems(youtube, **params):
     params['pageToken'] = search_response.get('nextPageToken', None)
   return videos
 
-def insert_playlistitem(youtube, playlist_id, video_id):
-  response = youtube.playlistItems().insert(
-        part='snippet,contentDetails,status',
-        body=dict(
-            snippet=dict(
-                playlistId=playlist_id,
-                resourceId=dict(
-                    kind='youtube#video',
-                    videoId=video_id
-                )
-            )
-        ),
-  ).execute()
-  return response
+
+def insert_playlistitem(youtube, **params):
+  
+  params['part'] = 'snippet'
+  params['fields'] = 'id,snippet(position)'
+  return youtube.playlistItems().insert(**params).execute()
+
 
 def clear_playlistitem(youtube, playlist_id):
   items = list_playlistitems(youtube, playlistId=playlist_id)

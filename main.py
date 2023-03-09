@@ -62,4 +62,15 @@ if __name__ == '__main__':
 
   for new_item in new_items:
     print("{d} 開始: {title} 投稿者: {author}".format(d=new_item['snippet']['publishAt'], title=new_item['snippet']['title'], author=new_item['snippet']['channelTitle']))
-    playlist = yt.insert_playlistitem(youtube, playlist_id, new_item['id']['videoId'])
+    
+    body = {
+      'snippet': {
+        'playlistId': playlist_id,
+        'resourceId': {
+          'kind': 'youtube#video',
+          'videoId': new_item['id']['videoId']
+        }
+      }
+    }
+    
+    playlist = yt.insert_playlistitem(youtube, body=body)
